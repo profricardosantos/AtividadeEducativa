@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>React Soma</title>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      width: 320px;
+      text-align: center;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    function App() {
+
+      const [valor1, setValor1] = React.useState(0)
+      const [valor2, setValor2] = React.useState(0)
+      const [resultado, setResultado] = React.useState(0)
+
+      function somar() {
+        setResultado(Number(valor1) + Number(valor2))
+      }
+
+      return (
+        <div className="container">
+          <h2>Somar com React</h2>
+
+          <input
+            type="number"
+            placeholder="Primeiro valor"
+            value={valor1}
+            onChange={(e) => setValor1(e.target.value)}
+          />
+
+          <input
+            type="number"
+            placeholder="Segundo valor"
+            value={valor2}
+            onChange={(e) => setValor2(e.target.value)}
+          />
+
+          <button onClick={somar}>
+            Somar
+          </button>
+
+          <h3>Resultado: {resultado}</h3>
+        </div>
+      )
+    }
+
+    ReactDOM.createRoot(document.getElementById('root'))
+      .render(<App />)
+
+  </script>
+
+</body>
+</html>
