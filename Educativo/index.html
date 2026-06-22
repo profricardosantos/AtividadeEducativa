@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atividades Educacionais</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Bolhas decorativas de fundo -->
+  <div class="bg-bubbles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- Estrelas decorativas -->
+  <div class="stars" aria-hidden="true" id="stars"></div>
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo-area">
+        <span class="logo-icon">🎓</span>
+        <div class="logo-text">
+          <h1 class="site-title">Atividades<br/>Educacionais</h1>
+          <p class="site-subtitle">Aprender é uma aventura! </p>
+        </div>
+      </div>
+      <nav class="header-nav">
+        <a href="#" class="nav-btn">🏠 Início</a>
+        <a href="#" class="nav-btn">⭐ Favoritos</a>
+        <a href="#" class="nav-btn">🏆 Conquistas</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <section class="hero">
+      <div class="hero-content">
+        <h2 class="hero-heading">Escolha seu jogo<br/>e vamos aprender!</h2>
+        <p class="hero-desc">10 atividades incríveis do 3°A esperando por você!</p>
+        <button class="hero-btn" onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">
+          Explorar jogos 🎮
+        </button>
+      </div>
+      <div class="hero-mascot" aria-hidden="true">
+        <div class="mascot-circle">
+          <span class="mascot-emoji">🦁</span>
+        </div>
+        <div class="mascot-speech">Vamos aprender juntos!</div>
+      </div>
+    </section>
+
+    <!-- Grade de jogos -->
+    <section class="games-grid" id="games" aria-label="Jogos disponíveis">
+      <!-- Os cards são gerados pelo JS -->
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">🎓 Atividades Educacionais</span>
+      <p class="footer-copy">Feito com ❤️ para crianças curiosas</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

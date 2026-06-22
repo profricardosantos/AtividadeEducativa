@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Jogo da Memória Infantil</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- BOTÃO VOLTAR AO SITE -->
+
+    <a href="../../index.html" id="btnInicioSite">
+        ⬅ Voltar ao início do site
+    </a>
+
+    <!-- MENU -->
+
+    <div id="menu">
+
+        <div class="menu-box">
+
+            <h1>🧠 Jogo da Memória</h1>
+
+            <p>
+                Combine sílabas iguais e depois
+                combine sílabas com imagens!
+            </p>
+
+            <button id="btnComecar">
+                ▶ Começar
+            </button>
+
+            <button id="btnOpcoes">
+                ⚙ Opções
+            </button>
+
+            <div id="painelOpcoes" class="hidden">
+
+                <h2>Escolha o nível</h2>
+
+                <select id="nivel">
+
+                    <option value="1">Nível 1</option>
+                    <option value="2">Nível 2</option>
+                    <option value="3">Nível 3</option>
+                    <option value="4">Nível 4</option>
+                    <option value="5">Nível 5</option>
+                    <option value="6">Nível 6</option>
+                    <option value="7">Nível 7</option>
+                    <option value="8">Nível 8</option>
+                    <option value="9">Nível 9</option>
+                    <option value="10">Nível 10</option>
+
+                    <option value="11">Nível 11</option>
+                    <option value="12">Nível 12</option>
+                    <option value="13">Nível 13</option>
+                    <option value="14">Nível 14</option>
+                    <option value="15">Nível 15</option>
+                    <option value="16">Nível 16</option>
+                    <option value="17">Nível 17</option>
+                    <option value="18">Nível 18</option>
+                    <option value="19">Nível 19</option>
+                    <option value="20">Nível 20</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- JOGO -->
+
+    <div id="jogo" class="hidden">
+
+        <div class="topo">
+
+            <h2 id="textoNivel">
+                Nível 1
+            </h2>
+
+            <button id="voltarMenu">
+                ⬅ Menu
+            </button>
+
+        </div>
+
+        <div id="tabuleiro"></div>
+
+    </div>
+
+    <!-- TELA FINAL -->
+
+    <div id="telaFinal" class="hidden">
+
+        <!-- IMAGEM -->
+        <img
+            id="imagemFinal"
+            src="img/parabens.png"
+            alt="Parabéns"
+        >
+
+        <div class="final-box">
+
+            <h1>🎉 Parabéns!</h1>
+
+            <p>
+                Você completou a fase!
+            </p>
+
+            <button id="btnVoltarMenuFinal">
+                ⬅ Voltar
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
