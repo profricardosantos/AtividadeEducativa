@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frutas Divertidas</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(135deg, #ffd6f6, #d6fff5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      text-align: center;
+      width: 90%;
+      max-width: 900px;
+    }
+    
+    h1 {
+      color: #ff4f81;
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+    }
+    
+    .game-box {
+      background: white;
+      border-radius: 30px;
+      padding: 25px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* BARRA DE PROGRESSO */
+    .progress-container {
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 20px;
+    }
+
+    .progress-label {
+      font-size: 1rem;
+      color: #ff4f81;
+      font-weight: bold;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 20px;
+      background: #e0e0e0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid #ff9f1c;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #7bdff2, #70e000);
+      transition: width 0.4s ease-in-out;
+    }
+
+    .top-info {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .score-box {
+      background: #ff70a6;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+    
+    #fruit-image {
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+      margin: 0 auto 20px auto;
+      display: block;
+    }
+    
+    .slots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+    
+    .slot {
+      width: 75px;
+      height: 75px;
+      background: #fff3b0;
+      border: 4px dashed #ff9f1c;
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #ff4f81;
+      transition: background 0.2s, border 0.2s;
+      position: relative;
+    }
+
+    .slot.drag-over {
+      background: #ffe366;
+      border-style: solid;
+    }
+    
+    .options {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      min-height: 85px;
+    }
+    
+    .option {
+      width: 75px;
+      height: 75px;
+      background: #7bdff2;
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: grab;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: white;
+      transition: transform 0.2s, background 0.2s;
+      user-select: none;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+      touch-action: none;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .option:hover {
+      transform: scale(1.08);
+      background: #ff70a6;
+    }
+
+    .option:active {
+      cursor: grabbing;
+    }
+    
+    .correct {
+      background: #70e000 !important;
+      border-color: #38b000 !important;
+      color: white !important;
+      border-style: solid !important;
+    }
+    
+    .falling {
+      animation: fallDown 0.6s forwards ease-in;
+      pointer-events: none;
+    }
+    
+    .buttons {
+      margin-top: 15px;
+    }
+    
+    #next-btn {
+      background: #ff9f1c;
+      border: none;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: inherit;
+      display: block;
+      margin: 10px auto 0 auto;
+    }
+    
+    #next-btn:hover:not(:disabled) {
+      transform: scale(1.05);
+    }
+    
+    #next-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: #bdbdbd;
+    }
+
+    @keyframes fallDown {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(200px) rotate(45deg); opacity: 0; }
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      50% { transform: translateX(6px); }
+      75% { transform: translateX(-6px); }
+      100% { transform: translateX(0); }
+    }
+
+    .shake-slot {
+      animation: shake 0.3s;
+      background: #ff595e !important;
+      border-color: #d90429 !important;
+    }
+
+    .score-minus {
+      animation: shake 0.3s;
+      background: #d90429 !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🍉 COLOQUE O NOME DA FRUTA 🍍</h1>
+
+    <div class="game-box">
+      <!-- BARRA DE PROGRESSO E PLACAR -->
+      <div class="progress-container">
+        <div class="progress-label">
+          <span>Progresso</span>
+          <span id="progressText">Fruta 1 de 20</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+      </div>
+
+      <div class="top-info">
+        <div class="score-box" id="scoreBox">
+          ⭐ Pontos: <span id="score">0</span>
+        </div>
+      </div>
+
+      <img id="fruit-image" src="" alt="Fruta">
+
+      <div id="slots" class="slots"></div>
+
+      <div id="options" class="options"></div>
+
+      <div class="buttons">
+        <button id="next-btn" disabled>
+          ➡ Próxima fruta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // LISTA EXPANDIDA PARA 20 FRUTAS
+    const baseFruits = [
+      { name: "MAÇÃ", image: "imagens/maca.png", syllables: ["MA", "ÇÃ"], extra: ["PA", "LÃ"] },
+      { name: "BANANA", image: "imagens/banana.png", syllables: ["BA", "NA", "NA"], extra: ["TA", "CA"] },
+      { name: "UVA", image: "imagens/uva.png", syllables: ["U", "VA"], extra: ["O", "MA"] },
+      { name: "LARANJA", image: "imagens/laranja.png", syllables: ["LA", "RAN", "JA"], extra: ["PA", "GA"] },
+      { name: "ABACAXI", image: "imagens/abacaxi.png", syllables: ["A", "BA", "CA", "XI"], extra: ["ME", "ZA"] },
+      { name: "MELANCIA", image: "imagens/melancia.png", syllables: ["ME", "LAN", "CI", "A"], extra: ["BO", "TU"] },
+      { name: "PERA", image: "imagens/pera.png", syllables: ["PE", "RA"], extra: ["MÃ", "DA"] },
+      { name: "MAMÃO", image: "imagens/mamao.png", syllables: ["MA", "MÃO"], extra: ["PÃO", "SA"] },
+      { name: "LIMÃO", image: "imagens/limao.png", syllables: ["LI", "MÃO"], extra: ["TÃO", "NE"] },
+      { name: "MANGA", image: "imagens/manga.png", syllables: ["MAN", "GA"], extra: ["SAN", "FA"] },
+      { name: "GOIABA", image: "imagens/goiaba.png", syllables: ["GOI", "A", "BA"], extra: ["FOI", "PA"] },
+      { name: "MORANGO", image: "imagens/morango.png", syllables: ["MO", "RAN", "GO"], extra: ["CAN", "TO"] },
+      { name: "ACEROLA", image: "imagens/acerola.png", syllables: ["A", "CE", "RO", "LA"], extra: ["BE", "FA"] },
+      { name: "CAJU", image: "imagens/caju.png", syllables: ["CA", "JU"], extra: ["MU", "TA"] },
+      { name: "JACA", image: "imagens/jaca.png", syllables: ["JA", "CA"], extra: ["LI", "CA"] },
+      { name: "KIWI", image: "imagens/kiwi.png", syllables: ["KI", "WI"], extra: ["LI", "VA"] },
+      { name: "AMORA", image: "imagens/amora.png", syllables: ["A", "MO", "RA"], extra: ["LO", "FA"] },
+      { name: "CARAMBOLA", image: "imagens/carambola.png", syllables: ["CA", "RAM", "BO", "LA"], extra: ["SAM", "TE"] },
+      { name: "JABUTICABA", image: "imagens/jabuticaba.png", syllables: ["JA", "BU", "TI", "CA", "BA"], extra: ["PU", "MI"] },
+      { name: "MARACUJÁ", image: "imagens/maracuja.png", syllables: ["MA", "RA", "CU", "JÁ"], extra: ["TA", "PÁ"] }
+    ];
+
+    let fruits = [];
+    let currentFruitIndex = 0;
+    let score = 0;
+    let currentStep = 0;
+
+    const fruitImg = document.getElementById('fruit-image');
+    const slotsContainer = document.getElementById('slots');
+    const optionsContainer = document.getElementById('options');
+    const scoreElement = document.getElementById('score');
+    const scoreBox = document.getElementById('scoreBox');
+    const nextBtn = document.getElementById('next-btn');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function initApp() {
+      fruits = shuffleArray([...baseFruits]);
+      currentFruitIndex = 0;
+      loadGame();
+    }
+
+    function updateProgressBar() {
+      const total = fruits.length;
+      const current = currentFruitIndex + 1;
+      const percentage = (current / total) * 100;
+      
+      progressBar.style.width = `${percentage}%`;
+      progressText.textContent = `Fruta ${current} de ${total}`;
+    }
+
+    function loadGame() {
+      currentStep = 0;
+      nextBtn.disabled = true;
+      slotsContainer.innerHTML = '';
+      optionsContainer.innerHTML = '';
+
+      updateProgressBar();
+
+      const currentFruit = fruits[currentFruitIndex];
+      
+      fruitImg.src = currentFruit.image;
+      fruitImg.onerror = () => {
+        fruitImg.alt = `[Imagem local não encontrada: ${currentFruit.image}]`;
+      };
+
+      currentFruit.syllables.forEach((_, index) => {
+        const slot = document.createElement('div');
+        slot.classList.add('slot');
+        slot.dataset.index = index;
+
+        slot.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          if (parseInt(slot.dataset.index) === currentStep) {
+            slot.classList.add('drag-over');
+          }
+        });
+
+        slot.addEventListener('dragleave', () => {
+          slot.classList.remove('drag-over');
+        });
+
+        slot.addEventListener('drop', (e) => {
+          e.preventDefault();
+          slot.classList.remove('drag-over');
+          const syllable = e.dataTransfer.getData('text/plain');
+          const optionId = e.dataTransfer.getData('elementId');
+          const optionElement = document.getElementById(optionId);
+
+          if (optionElement && parseInt(slot.dataset.index) === currentStep) {
+            verifySyllable(slot, optionElement, syllable);
+          }
+        });
+
+        slotsContainer.appendChild(slot);
+      });
+
+      const allOptions = shuffleArray([...currentFruit.syllables, ...currentFruit.extra]);
+
+      allOptions.forEach((syllable, id) => {
+        const option = document.createElement('div');
+        option.classList.add('option');
+        option.draggable = true;
+        option.id = `option-${id}`;
+        option.textContent = syllable;
+
+        option.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', syllable);
+          e.dataTransfer.setData('elementId', option.id);
+        });
+
+        optionsContainer.appendChild(option);
+      });
+    }
+
+    function verifySyllable(slot, optionElement, selectedSyllable) {
+      const currentFruit = fruits[currentFruitIndex];
+      const correctSyllable = currentFruit.syllables[currentStep];
+
+      if (selectedSyllable === correctSyllable) {
+        slot.textContent = selectedSyllable;
+        slot.classList.add('correct');
+        optionElement.remove();
+        currentStep++;
+
+        if (currentStep === currentFruit.syllables.length) {
+          score += 10;
+          scoreElement.textContent = score;
+          nextBtn.disabled = false;
+        }
+      } else {
+        score = Math.max(0, score - 5);
+        scoreElement.textContent = score;
+
+        scoreBox.classList.add('score-minus');
+        setTimeout(() => scoreBox.classList.remove('score-minus'), 300);
+
+        slot.classList.add('shake-slot');
+
+        const fallingPiece = document.createElement('div');
+        fallingPiece.classList.add('option', 'falling');
+        fallingPiece.style.position = 'absolute';
+        fallingPiece.style.background = '#ff595e';
+        fallingPiece.textContent = selectedSyllable;
+
+        slot.appendChild(fallingPiece);
+
+        setTimeout(() => {
+          slot.classList.remove('shake-slot');
+          fallingPiece.remove();
+        }, 600);
+      }
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (currentFruitIndex < fruits.length - 1) {
+        currentFruitIndex++;
+        loadGame();
+      } else {
+        alert(`🎉 Parabéns! Você completou todas as 20 frutas com ${score} pontos!`);
+        initApp(); // Reinicia com uma nova ordem
+      }
+    });
+
+    initApp();
+  </script>
+</body>
+</html>
